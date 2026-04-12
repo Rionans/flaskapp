@@ -2,7 +2,7 @@ image: Ubuntu
 
 install:
   - chmod +x ./flaskapp/st.sh
-  - pip3 install flask gunicorn
+  - pip3 install flask gunicorn requests
 
 build: off
 
