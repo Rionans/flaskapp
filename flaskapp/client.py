@@ -10,8 +10,7 @@ r = requests.get('http://localhost:5000/data_to')
 print(r.status_code)
 print(r.text)
 
-# Тестирование /apinet
-path = os.path.join('./static', 'image0008.png')  # убедитесь, что файл существует
+path = os.path.join('./static', 'image0008.png')
 if os.path.exists(path):
     with open(path, 'rb') as fh:
         img_data = fh.read()
@@ -26,7 +25,6 @@ else:
     print('=== /apinet ===')
     print('File image0008.png not found in static/')
 
-# Тестирование /apixml
 try:
     r = requests.get('http://localhost:5000/apixml')
     print('=== /apixml ===')
@@ -34,7 +32,7 @@ try:
     if r.status_code != 200:
         print('Error: status', r.status_code)
     else:
-        print(r.text[:200] + '...')  # первые 200 символов
+        print(r.text[:200] + '...')
 except Exception as e:
     print('Error:', e)
 
