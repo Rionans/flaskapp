@@ -4,7 +4,7 @@ OUTPUT=""
 EXIT_CODE=0
 ERROR_STATUS=0
 
-COMMENT=$2
+COMMENT=$1
 
 if [ "$COMMENT" == "" ]; then
 	echo "[ERROR] you need to input some comment"
