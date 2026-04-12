@@ -74,7 +74,7 @@ class NetForm(FlaskForm):
             FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')
         ]
     )
-    # recaptcha = RecaptchaField()
+    recaptcha = RecaptchaField()
     submit = SubmitField('send')
 
 class ModulationForm(FlaskForm):
