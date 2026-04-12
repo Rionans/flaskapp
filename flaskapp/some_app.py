@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, Response
 from flask_wtf import FlaskForm, RecaptchaField
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms import StringField, SubmitField
@@ -7,6 +7,11 @@ from flask_bootstrap import Bootstrap
 from werkzeug.utils import secure_filename
 import os
 import net as neuronet
+import base64
+from PIL import Image
+from io import BytesIO
+import json
+import lxml.etree as ET
 
 app = Flask(__name__)
 
@@ -75,6 +80,30 @@ def net():
         neurodic=neurodic
     )
 
+@app.route("/apinet", methods=['GET', 'POST'])
+def apinet():
+    neurodic = {}
+    if request.mimetype == 'application/json':
+        data = request.get_json()
+        filebytes = data['imagebin'].encode('utf-8')
+        cfile = base64.b64decode(filebytes)
+        img = Image.open(BytesIO(cfile))
+        decode = neuronet.getresult([img])
+        neurodic = {}
+        for elem in decode:
+            neurodic[elem[0][1]] = str(elem[0][2])
+        ret = json.dumps(neurodic)
+        return Response(response=ret, status=200, mimetype="application/json")
+    return Response(response='{}', status=400, mimetype="application/json")
+
+@app.route("/apixml", methods=['GET', 'POST'])
+def apixml():
+    dom = ET.parse("./static/xml/file.xml")
+    xslt = ET.parse("./static/xml/file.xslt")
+    transform = ET.XSLT(xslt)
+    newhtml = transform(dom)
+    strfile = ET.tostring(newhtml)
+    return strfile
 
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=5000)
