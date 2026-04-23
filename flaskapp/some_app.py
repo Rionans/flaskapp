@@ -187,7 +187,10 @@ def var19():
 
         if form.add_timestamp.data:
             from datetime import datetime
-            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            import pytz
+    
+            msk_tz = pytz.timezone('Europe/Moscow')
+            timestamp = datetime.now(msk_tz).strftime("%H:%M:%S MSK")
             processed_array = add_timestamp(processed_array, timestamp)
 
         processed_img = Image.fromarray(processed_array)
